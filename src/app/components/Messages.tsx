@@ -40,11 +40,17 @@ const MessageBubble = styled(Paper)<{ outgoing: boolean }>(
 
 const MessageList = ({ conversationId }: MessageListProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!conversationId) return;
-    
+    if (!conversationId) {
+      setMessages([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
     const fetchMessages = async () => {
       try {
         const res = await fetch(
@@ -63,6 +69,14 @@ const MessageList = ({ conversationId }: MessageListProps) => {
 
     fetchMessages();
   }, [conversationId]);
+
+  if (!conversationId) {
+    return (
+      <Box p={3}>
+        <Typography color="text.secondary">Select a conversation</Typography>
+      </Box>
+    );
+  }
 
   if (loading) {
     return (
@@ -87,6 +101,7 @@ const MessageList = ({ conversationId }: MessageListProps) => {
             display="flex"
             flexDirection="column"
             alignItems={msg.outgoing ? "flex-end" : "flex-start"}
+            gap={1}
           >
             <MessageBubble outgoing={msg.outgoing} elevation={1}>
               <Typography variant="body2">{msg.message}</Typography>
@@ -96,7 +111,6 @@ const MessageList = ({ conversationId }: MessageListProps) => {
               color="text.secondary"
               textAlign={msg.outgoing ? "right" : "left"}
               display="block"
-              mt={0.5}
             >
               {new Date(msg.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
