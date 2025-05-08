@@ -3,11 +3,18 @@ import { Box, Typography, List, Paper, CircularProgress } from "@mui/material";
 import { ConversationSummary } from "../types";
 import ConversationItem from "./ConversationItem";
 
-const Conversations = () => {
+interface ConversationsProps {
+  conversationId: string | null;
+  onSelectConversation: (convId: string) => void;
+}
+
+const Conversations = ({
+  conversationId,
+  onSelectConversation,
+}: ConversationsProps) => {
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -15,7 +22,6 @@ const Conversations = () => {
         const res = await fetch("/api/conversations");
         const json = await res.json();
         setConversations(json.data);
-        setSelectedId(json.data[0]?.id || null);
       } catch (err) {
         console.error(err);
         setError("Failed to load conversations");
@@ -42,8 +48,8 @@ const Conversations = () => {
               initials={conv.initials}
               lastMessage={conv.lastMessage}
               time={conv.time}
-              selected={conv.id === selectedId}
-              onClick={() => setSelectedId(conv.id)}
+              selected={conv.id === conversationId}
+              onClick={() => onSelectConversation(conv.id)}
             />
           ))}
         </List>

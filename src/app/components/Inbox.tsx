@@ -1,18 +1,22 @@
 import { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import Conversations from "./Conversations";
 import MessageList from "./Messages";
+import { Send } from "@mui/icons-material";
 
 export default function InboxPage() {
-  // const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [input, setInput] = useState("");
 
   return (
     <Box sx={{ height: "100vh", display: "flex" }}>
-      <Conversations />
+      <Conversations
+        conversationId={conversationId}
+        onSelectConversation={(id) => setConversationId(id)}
+      />
       <Box sx={{ flex: 1, p: 2, display: "flex", flexDirection: "column" }}>
         <Box sx={{ flex: 1, overflowY: "auto", mb: 2 }}>
-          <MessageList conversationId="conv_1" />
+          <MessageList conversationId={conversationId} />
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -23,9 +27,9 @@ export default function InboxPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          {/* <Button onClick={handleSend} sx={{ ml: 1 }} variant="contained" endIcon={<Send />}>
+          <Button sx={{ ml: 1 }} variant="contained" endIcon={<Send />}>
             Send
-          </Button> */}
+          </Button>
         </Box>
       </Box>
     </Box>

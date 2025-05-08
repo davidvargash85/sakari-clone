@@ -20,7 +20,7 @@ interface Message {
 }
 
 interface MessageListProps {
-  conversationId: string;
+  conversationId: string | null;
 }
 
 const MessageBubble = styled(Paper)<{ outgoing: boolean }>(
@@ -43,6 +43,8 @@ const MessageList = ({ conversationId }: MessageListProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!conversationId) return;
+    
     const fetchMessages = async () => {
       try {
         const res = await fetch(
