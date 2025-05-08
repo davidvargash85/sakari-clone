@@ -2,7 +2,6 @@
 "use client";
 
 import {
-  Avatar,
   Box,
   ListItemAvatar,
   ListItemButton,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ConversationSummary } from "@/app/types";
+import { MessageAvatar } from "./Avatar";
 
 interface ConversationProps extends ConversationSummary {
   selected: boolean;
@@ -46,20 +46,7 @@ const ConversationItem = ({
   return (
     <StyledListItem selected={selected} onClick={onClick} key={id}>
       <ListItemAvatar sx={{ position: "relative" }}>
-        <Avatar
-          sx={{
-            backgroundColor: "white",
-            color: "text.primary",
-            border: "1px solid",
-            borderColor: "grey.300",
-            fontWeight: 600,
-            width: 48, // or 56
-            height: 48, // or 56
-            fontSize: "1rem", // optional, adjust as needed
-          }}
-        >
-          {initials}
-        </Avatar>
+        <MessageAvatar initials={initials} />
       </ListItemAvatar>
       <ListItemText
         primary={

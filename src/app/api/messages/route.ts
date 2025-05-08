@@ -28,7 +28,7 @@ export const GET = async (req: NextRequest) => {
       createdAt: '2025-05-07T14:22:08.927Z',
       outgoing: false,
       status: 'received',
-      initials: 'DV'
+      initials: 'CP'
     },
     {
       id: '3',
@@ -39,7 +39,6 @@ export const GET = async (req: NextRequest) => {
       status: 'delivered',
       initials: 'DV'
     },
-
     // conv_2
     {
       id: '4',
@@ -59,7 +58,6 @@ export const GET = async (req: NextRequest) => {
       status: 'received',
       initials: 'JS'
     },
-
     // conv_3
     {
       id: '6',
